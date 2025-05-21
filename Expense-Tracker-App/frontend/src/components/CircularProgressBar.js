@@ -9,13 +9,13 @@ const CircularProgressBar = ({ percentage, color }) => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    setIsAnimating(true);
+    setIsAnimating(false);
   }, []);
 
   const circleStyle = {
     '--circumference': circumference,
     '--progress': progress,
-    '--color': color,
+    '--color': color
   };
 
   return (

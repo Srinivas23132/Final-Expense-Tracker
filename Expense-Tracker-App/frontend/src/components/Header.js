@@ -1,104 +1,34 @@
-// NavbarComponent.js
-import React, { useCallback, useEffect, useState } from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
-import "./style.css";
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import './style.css';
+
 const Header = () => {
-  
-const navigate = useNavigate();
-
-  const handleShowLogin = () =>{
-    navigate("/login");
-  }
-
-  const [user, setUser] = useState();
-
-  useEffect(() => {
-    
-      if (localStorage.getItem("user")) {
-        const user = JSON.parse(localStorage.getItem("user"));
-        
-        setUser(user);
-        
-      }
-
-
-    
-  }, []);
-
-  const handleShowLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/login");
-  }
-
   const particlesInit = useCallback(async (engine) => {
-    // console.log(engine);
     await loadFull(engine);
   }, []);
 
-  const particlesLoaded = useCallback(async (container) => {
-    // await console.log(container);
-  }, []);
-  
+  const particlesLoaded = useCallback(async () => {}, []);
+
   return (
-    <>
     <div style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Particle Background */}
       <Particles
         id="tsparticles"
         init={particlesInit}
         loaded={particlesLoaded}
         options={{
-          background: {
-            color: {
-              value: '#000',
-            },
-          },
+          background: { color: { value: "transparent" } },
           fpsLimit: 60,
           particles: {
-            number: {
-              value: 200,
-              density: {
-                enable: true,
-                value_area: 800,
-              },
-            },
-            color: {
-              value: '#ffcc00',
-            },
-            shape: {
-              type: 'circle',
-            },
-            opacity: {
-              value: 0.5,
-              random: true,
-            },
-            size: {
-              value: 3,
-              random: { enable: true, minimumValue: 1 },
-            },
-            links: {
-              enable: false,
-            },
-            move: {
-              enable: true,
-              speed: 2,
-            },
-            life: {
-              duration: {
-                sync: false,
-                value: 3,
-              },
-              count: 0,
-              delay: {
-                random: {
-                  enable: true,
-                  minimumValue: 0.5,
-                },
-                value: 1,
-              },
-            },
+            number: { value: 80, density: { enable: true, area: 800 } },
+            color: { value: "#ffffff" },
+            shape: { type: "circle" },
+            opacity: { value: 0.3 },
+            size: { value: 3, random: true },
+            move: { enable: true, speed: 1.5 },
+            links: { enable: false },
           },
           detectRetina: true,
         }}
@@ -111,45 +41,22 @@ const navigate = useNavigate();
           bottom: 0,
         }}
       />
-    <Navbar className="navbarCSS" collapseOnSelect expand="lg" style={{position: 'relative', zIndex: "2 !important"}}>
-      {/* <Navbar className="navbarCSS" collapseOnSelect expand="lg" bg="dark" variant="dark"> */}
-        <Navbar.Brand href="/" className="text-white navTitle">Expense Management System</Navbar.Brand>
-        <Navbar.Toggle
-            aria-controls="basic-navbar-nav"
-            style={{
-              backgroundColor: "transparent",
-              borderColor: "transparent",
-            }}
-          >
-            <span
-              className="navbar-toggler-icon"
-              style={{
-                background: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")`,
-              }}
-            ></span>
-          </Navbar.Toggle>
-        <div>
-        <Navbar.Collapse id="responsive-navbar-nav" style={{color: "white"}}>
-          {user ? (
-            <>
-            <Nav>
-                <Button variant="primary" onClick={handleShowLogout} className="ml-2">Logout</Button>
-              </Nav>
-            </>
-          ) : (
 
-            <>
-              <Nav>
-                <Button variant="primary" onClick={handleShowLogin} className="ml-2">Login</Button>
-              </Nav>
-            </>
-          )}
-          
-        </Navbar.Collapse>
-      </div>
+      {/* Navbar */}
+      <Navbar expand="lg" className="navbarCSS" style={{ position: 'relative', zIndex: 2 }}>
+        <Container>
+          <Navbar.Brand href="/" className="text-white fw-bold fs-4">
+            💸 Expense Management System
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbar-responsive" style={{ backgroundColor: "#fff" }} />
+          <Navbar.Collapse id="navbar-responsive" className="justify-content-end">
+            <Nav>
+              {/* Login/Logout button removed as requested */}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
       </Navbar>
-      </div>
-    </>
+    </div>
   );
 };
 
